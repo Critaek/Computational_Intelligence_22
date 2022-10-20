@@ -1,9 +1,8 @@
 import heapq
-import random
 import logging
-from random import seed, choice
+import random
+import time
 from typing import Callable
-import numpy as np
 N = 5
 SEED = 42
 
@@ -33,29 +32,22 @@ class PriorityQueue:
         self._data_set.remove(item)
         return item
 
+
 def problem(N, seed=None):
     random.seed(seed)
     return [
-        list(set(random.randint(0, N - 1) for n in range(random.randint(N // 5, N // 2))))
+        set(set(random.randint(0, N - 1) for n in range(random.randint(N // 5, N // 2))))
         for n in range(random.randint(N, N * 5))
     ]
 
-PROBLEM = problem(N, SEED)
 
-def goal_test(state):
-    new = set()
-    #Concatenation of all lists without duplicates, a state is a list of lists (subset of problem)
-    for list in state.data: 
-        new.add(list)
-    
-    test = [x for x in range(N)]
-
-    return all(x in new for x in test) #Returns True if all elements of "test" are contained in "new"
 
 class State:
-    def __init__(self, data: list):
+    def __init__(self, data: set, history=None):
         self._data = data.copy()
-        #self._data.flags.writeable = False
+        # self._data.flags.writeable = False
+        if not history:
+            self.history = []
 
     def __hash__(self):
         return hash(bytes(self._data))
@@ -79,13 +71,29 @@ class State:
     def copy_data(self):
         return self._data.copy()
 
-def possible_actions(state):
-    #Return a possible action, in this case adding a list from the original problem A(s)
-    return [l for l in PROBLEM]
 
-def result(state, action):
-    #Return new state with action a performed R(s, a)
-    return State(state.data + action)
+PROBLEM = sorted(problem(N, SEED), key=lambda el: len(el))
+
+GOAL_STATE = State(set(range(N)))
+print('problem', PROBLEM)
+
+
+def goal_test(state):
+    return state == GOAL_STATE
+
+
+def possible_actions():
+    # Return a possible action, in this case adding a list from the original problem A(s)
+    return PROBLEM
+
+
+def result(state: State, action: set):
+    # Return new state with action a performed R(s, a)
+    new_state = State(state.data | action)
+    # update new state history to calculate the weight at the end
+    new_state.history.append(action)
+    return new_state
+
 
 def search(
     initial_state: State,
@@ -104,11 +112,12 @@ def search(
     state_cost[state] = 0
 
     while state is not None and not goal_test(state):
-        for a in possible_actions(state):
-            #print(f"Action: {a}")
+        for a in possible_actions():
+            
             new_state = result(state, a)
-            #print(f"New State: {new_state}")
+            
             cost = unit_cost(a)
+            
             if new_state not in state_cost and new_state not in frontier:
                 parent_state[new_state] = state
                 state_cost[new_state] = state_cost[state] + cost
@@ -127,19 +136,34 @@ def search(
     path = list()
     s = state
     while s:
-        path.append(s.copy_data())
+        if s.history:
+            path.append(*s.history)
         s = parent_state[s]
+
+    # sum the length of all set in the solution
+    weight = sum(len(_) for _ in path)
+    bloat = ((sum(len(_) for _ in path)-N)/N*100)
+
+    logging.info(
+        f"Found a solution in {len(path)} steps; \
+        weight: {weight}; \
+        visited {len(state_cost)} states; \
+        bloat={bloat:.0f}%"
+    )
+    print(path)
 
     logging.info(f"Found a solution in {len(path):,} steps; visited {len(state_cost):,} states")
     return list(reversed(path))
 
+
 parent_state = dict()
 state_cost = dict()
-INITIAL_STATE = State(list([]))
+INITIAL_STATE = State(set())
 
-logging.getLogger().setLevel(logging.INFO)
+logging.getLogger().setLevel(logging.DEBUG)
 
-#print(PROBLEM)
+
+now = time.perf_counter()
 
 final = search(
     INITIAL_STATE,
@@ -150,4 +174,5 @@ final = search(
     unit_cost=lambda a: len(a),
 )
 
-print(final)
+logging.DEBUG("time elapsed ", time.perf_counter() - now)
+logging.DEBUG(final)
