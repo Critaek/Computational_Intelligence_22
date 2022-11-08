@@ -4,7 +4,7 @@ import logging
 from random import seed, choice
 from typing import Callable
 import numpy as np
-N = 5
+N = 100
 SEED = 42
 
 
