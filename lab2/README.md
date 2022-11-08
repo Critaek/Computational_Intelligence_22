@@ -10,4 +10,5 @@ N = 5 -> Generation: 3   String: [[0, 2], [3], [4], [1]] Fitness: 5 <br />
 N = 10 -> Generation: 15  String: [[1, 3, 4, 9], [6], [8, 2, 7], [0, 5]]  Fitness: 10 <br />
 N = 20 -> Generation: 10001       String: [[18, 2, 15], [4, 5, 8, 13, 15, 16, 17, 19], [6, 9, 11, 12, 17], [2, 3, 7, 10, 14, 16], [0, 1, 2, 7]]   Fitness: 26 <br />
 N = 100 -> Generation: 10001    Fitness: 428 <br />
-N = 1000 -> Generation: 10001   Fitness: 357207 <br />
+N = 500 -> Generation: 10001    Fitness: 74778 (population_size = 100) <br />
+N = 1000 -> Generation: 10001   Fitness: 357207 (population_size = 100) <br />
