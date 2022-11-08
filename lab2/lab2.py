@@ -106,7 +106,7 @@ def offspring(N):
     print(f"N = {N} -> Generation: {generation}\tFitness: {population[0].fitness}")
 
 if __name__ == "__main__":
-    for N in [1000]:
+    for N in [500]:
         PROBLEM = problem(N, SEED)
         #print(PROBLEM)
         offspring(N)
