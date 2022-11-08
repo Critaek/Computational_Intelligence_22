@@ -1,7 +1,8 @@
 import random
+from progress.bar import Bar
 
 SEED = 42
-POPULATION_SIZE = 1000
+POPULATION_SIZE = 100
 MAX_GENERATIONS = 10000
 
 def problem(N, seed=None):
@@ -73,36 +74,39 @@ def offspring(N):
     for _ in range(POPULATION_SIZE):
         rand_chromosome = Individual.generate_chromosome()
         population.append(Individual(rand_chromosome))
+        
+    with Bar("Processing", max = MAX_GENERATIONS) as bar:    
+        for _ in range(MAX_GENERATIONS):
+            population = sorted(population, key = lambda x : x.fitness)
 
-    for _ in range(MAX_GENERATIONS):
-        population = sorted(population, key = lambda x : x.fitness)
+            if population[0].fitness == N:
+                continue
 
-        if population[0].fitness == N:
-            continue
+            new_generation = []
 
-        new_generation = []
+            s = int((10*POPULATION_SIZE)/100)
+            new_generation.extend(population[:s])
 
-        s = int((10*POPULATION_SIZE)/100)
-        new_generation.extend(population[:s])
+            s = int((90*POPULATION_SIZE)/100)
+            for _ in range(s):
+                parent1 = random.choice(population[:50])
+                parent2 = random.choice(population[:50])
+                child = Individual.mate(parent1, parent2)
+                new_generation.append(child)
 
-        s = int((90*POPULATION_SIZE)/100)
-        for _ in range(s):
-            parent1 = random.choice(population[:50])
-            parent2 = random.choice(population[:50])
-            child = Individual.mate(parent1, parent2)
-            new_generation.append(child)
+            population = new_generation
+    
+            generation += 1
 
-        population = new_generation
-  
-        generation += 1
+            bar.next()
 
-        #if generation % 100 == 0:
-        #    print(f"N = {N} -> Generation: {generation}\tFitness: {population[0].fitness}")
+            #if generation % 100 == 0:
+            #    print(f"N = {N} -> Generation: {generation}\tFitness: {population[0].fitness}")
 
     print(f"N = {N} -> Generation: {generation}\tFitness: {population[0].fitness}")
 
 if __name__ == "__main__":
-    for N in [500, 1000]:
+    for N in [1000]:
         PROBLEM = problem(N, SEED)
         #print(PROBLEM)
         offspring(N)
