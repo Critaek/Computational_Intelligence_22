@@ -4,7 +4,7 @@ The program tries to find the optimal solution (where the number of elements is 
 The fitness is calculated by counting the total number of elements in the list if all the numbers in [0, N - 1] are covered, or by simply putting it as the total number on elements in all the lists of the problem. With this approach a lower number means a fitter individual, the closer to N, the best it is. <br />
 String contains the selected list(s). <br />
 From 100 and ahead the "String" will not be displayed as it's impossible to read. <br />
-Also for N = 500 and N = 1000 a population size of 100 was used, to finish in reasonable time. <br />
+Also for N = 500 and N = 1000 a population size of 100 was used, to finish in a reasonable time. <br />
 
 N = 5 -> Generation: 3   String: [[0, 2], [3], [4], [1]] Fitness: 5 <br />
 N = 10 -> Generation: 15  String: [[1, 3, 4, 9], [6], [8, 2, 7], [0, 5]]  Fitness: 10 <br />
