@@ -13,13 +13,13 @@ N = 100 -> Generation: 10001    Fitness: 428 <br />
 N = 500 -> Generation: 10001    Fitness: 74778 (population_size = 100) <br />
 N = 1000 -> Generation: 10001   Fitness: 357207 (population_size = 100) <br />
 
-###Second Version
+### Second Version <br />
 In the second version a more "classical" approach has been taken. <br />
 Altought it works way better with higher N, for lower N it's not optimal. <br />
 
-N = 5 -> Generation: 11 Fitness: 5
-N = 10 -> Generation: 10001     Fitness: 12
-N = 20 -> Generation: 10001     Fitness: 35
-N = 100 -> Generation: 10001    Fitness: 218
-N = 500 -> Generation: 10001    Fitness: 1810
-N = 1000 -> Generation: 10001   Fitness: 3620
+N = 5 -> Generation: 11 Fitness: 5 <br />
+N = 10 -> Generation: 10001     Fitness: 12 <br />
+N = 20 -> Generation: 10001     Fitness: 35 <br />
+N = 100 -> Generation: 10001    Fitness: 218 <br />
+N = 500 -> Generation: 10001    Fitness: 1810 <br />
+N = 1000 -> Generation: 10001   Fitness: 3620 <br />
