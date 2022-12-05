@@ -1,8 +1,8 @@
 import random
 from progress.bar import Bar
 
-POPULATION_SIZE = 1000
-MAX_GENERATIONS = 10000
+POPULATION_SIZE = 100
+MAX_GENERATIONS = 1000
 
 def problem(N, seed=42):
     random.seed(seed)
@@ -71,7 +71,7 @@ class Individual:
         return lists
 
 def offspring(N):
-    generation = 1
+    generation = 0
 
     population = []
 
@@ -80,8 +80,7 @@ def offspring(N):
         rand_chromosome = Individual.generate_chromosome()
         population.append(Individual(rand_chromosome))
         
-    with Bar("Processing", max = MAX_GENERATIONS) as bar:
-        bar.next()    
+    with Bar("Processing", max = MAX_GENERATIONS) as bar:  
         for _ in range(MAX_GENERATIONS):
             population = sorted(population, key = lambda x : x.fitness)
 
@@ -114,11 +113,13 @@ def offspring(N):
             #if generation % 1 == 0:
             #    print(f" N = {N} -> Generation: {generation}\tFitness: {population[0].fitness}")
 
+    population = sorted(population, key = lambda x : x.fitness)
+
     print(f"N = {N} -> Generation: {generation}\tFitness: {population[0].fitness}")
 
 if __name__ == "__main__":
     SEED = 42
-    for N in [5, 10, 20, 100]:
+    for N in [20]:
         PROBLEM = problem(N, SEED)
         #print(PROBLEM)
         offspring(N)

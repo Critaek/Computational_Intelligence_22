@@ -3,7 +3,7 @@ from progress.bar import Bar
 
 SEED = 42
 POPULATION_SIZE = 100
-MAX_GENERATIONS = 10000
+MAX_GENERATIONS = 1000
 
 def problem(N, seed=None):
     random.seed(seed)
@@ -66,7 +66,7 @@ class Individual:
         return lists
 
 def offspring(N):
-    generation = 1
+    generation = 0
 
     population = []
 
@@ -106,7 +106,7 @@ def offspring(N):
     print(f"N = {N} -> Generation: {generation}\tFitness: {population[0].fitness}")
 
 if __name__ == "__main__":
-    for N in [10, 20, 100, 500, 1000]:
+    for N in [20]:
         PROBLEM = problem(N, SEED)
         #print(PROBLEM)
         offspring(N)
