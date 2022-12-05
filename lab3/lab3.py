@@ -197,5 +197,16 @@ def evolve(opponent: Callable):
 if __name__ == "__main__":
     logging.getLogger().setLevel(logging.INFO)
 
+    # Match between a pure_random and gabriele
+    print( evaluate(pure_random, gabriele) )
+    # gabriele wins!
+
+    # We evolve a strategy by making it play against a hard coded rule
+    # in this case, as gabriele is better than a random one, he will be the opponent
     evolved_strategy = evolve(gabriele)
+
+    # Have a match between the evolved strategy and pure_random
     print( evaluate(evolved_strategy, pure_random) )
+
+    # Have a match between the evolved strategy and gabriele
+    print( evaluate(evolved_strategy, gabriele) )
