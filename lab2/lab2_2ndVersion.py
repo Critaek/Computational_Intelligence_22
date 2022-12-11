@@ -39,7 +39,7 @@ class Individual:
             return len(PROBLEM) + 1
     
     @classmethod
-    def generate_chromosome(self):
+    def generate_chromosome(cls):
         return [random_gene() for _ in range(len(PROBLEM))]
     
     def crossover(g1, g2):

@@ -1,44 +1,11 @@
 import logging
-from collections import namedtuple
+from Nim import *
 import random
 from typing import Callable
 from copy import deepcopy
 from itertools import accumulate
 from operator import xor
-
-Nimply = namedtuple("Nimply", "row, num_objects")
-
-class Nim:
-    def __init__(self, num_rows: int, k: int = None) -> None:
-        self._rows = [i * 2 + 1 for i in range(num_rows)]
-        self._k = k
-
-    # Example with k = 3, where k is the number of rows
-    #   *
-    #  ***
-    # *****
-
-    def __bool__(self):
-        return sum(self._rows) > 0
-
-    def __str__(self):
-        return "<" + " ".join(str(_) for _ in self._rows) + ">"
-
-    @property
-    def rows(self) -> tuple:
-        return tuple(self._rows)
-
-    @property
-    def k(self) -> int:
-        return self._k
-
-    # Make an action in the game (a ply is a move by one player)
-    def nimming(self, ply: Nimply) -> None:
-        row, num_objects = ply
-        assert self._rows[row] >= num_objects
-        assert self._k is None or num_objects <= self._k
-        self._rows[row] -= num_objects
-
+from minmax import minimax
 
 # Random Strategy, this is the same as the professor code, it takes a random number
 # of sticks (objects) from a random row
@@ -62,9 +29,7 @@ def nim_sum(state: Nim) -> int:
 
 def cook_status(state: Nim) -> dict:
     cooked = dict()
-    cooked["possible_moves"] = [
-        (r, o) for r, c in enumerate(state.rows) for o in range(1, c + 1) if state.k is None or o <= state.k
-    ]
+    cooked["possible_moves"] = state.possible_moves()
     cooked["active_rows_number"] = sum(o > 0 for o in state.rows)
     cooked["shortest_row"] = min((x for x in enumerate(state.rows) if x[1] > 0), key=lambda y: y[1])[0]
     cooked["longest_row"] = max((x for x in enumerate(state.rows)), key=lambda y: y[1])[0]
@@ -100,8 +65,8 @@ def strategy_to_evolve(genome: dict) -> Callable:
     return evolvable
 
 # GLOBAL VARIABLES #
-NUM_MATCHES = 100
-NIM_SIZE = 5
+NUM_MATCHES = 1000
+NIM_SIZE = 3
 
 # Function to perform a tournament with NUM_MATCHES matches, it returns the fraction of games
 # won by the strategy function (the first parameter), so if we pass as strategy the optimal_strategy
@@ -120,7 +85,7 @@ def evaluate(strategy: Callable, opponent: Callable) -> float:
             if player == 1:
                 won += 1
 
-        logging.debug(f" Player 0 won {won} time in {NUM_MATCHES} game, corresponding to {won / NUM_MATCHES * 100} % of the games")
+        logging.info(f" Player 0 won {won} time in {NUM_MATCHES} game, corresponding to {won / NUM_MATCHES * 100} % of the games")
 
         return won / NUM_MATCHES
 
@@ -129,7 +94,7 @@ def evaluate(strategy: Callable, opponent: Callable) -> float:
 class Individual:
     def __init__(self, opponent: Callable):
         self.genome = {"p" : round(random.random(), 3)}
-        self.module = 0.01
+        self.module = 0.05
         self.opponent = opponent
         self.fitness = self.cal_fitness()
 
@@ -153,8 +118,8 @@ class Individual:
 
         return self
 
-POPULATION_SIZE = 100
-MAX_GENERATIONS = 100
+POPULATION_SIZE = 10
+MAX_GENERATIONS = 10
 
 # Function that evolves the strategy_to_evolve playing against an opponent
 # In this case "p" is the only parameter to optimize
@@ -187,7 +152,7 @@ def evolve(opponent: Callable):
         population = new_generation
         generation += 1
 
-        print(f"Generation -> {generation} Best found so far: {population[0].fitness}")
+        print(f"Generation -> {generation} Best found so far: {population[0].fitness} with {population[0].genome}")
     
     population = sorted(population, key = lambda x: x.fitness, reverse = True)
 
@@ -197,16 +162,23 @@ def evolve(opponent: Callable):
 if __name__ == "__main__":
     logging.getLogger().setLevel(logging.INFO)
 
+    # What the evaluate function returns is the WR of the first strategy passed, so
+    # a value < 0.5 means the second one passed is better and a value > 0.5 means
+    # the first passed is better 
+
     # Match between a pure_random and gabriele
-    print( evaluate(pure_random, gabriele) )
+    # print( evaluate(pure_random, gabriele) )
     # gabriele wins!
 
     # We evolve a strategy by making it play against a hard coded rule
     # in this case, as gabriele is better than a random one, he will be the opponent
-    evolved_strategy = evolve(gabriele)
+    # evolved_strategy = evolve(gabriele)
 
     # Have a match between the evolved strategy and pure_random
-    print( evaluate(evolved_strategy, pure_random) )
+    # print( evaluate(evolved_strategy, pure_random) )
 
     # Have a match between the evolved strategy and gabriele
-    print( evaluate(evolved_strategy, gabriele) )
+    # print( evaluate(evolved_strategy, gabriele) )
+
+    # Have a match between minmax and a random player
+    print( evaluate(pure_random, minimax) )
