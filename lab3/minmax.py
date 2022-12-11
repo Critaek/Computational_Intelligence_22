@@ -5,7 +5,7 @@ from copy import deepcopy
 # player = True -> actual player
 # player = False -> opponent
 # We want to maximize True while minimizing False (the opponent)
-def minmax(state: Nim, depth: int = 0, player: bool = True):
+def minmax(state: Nim, depth: int = 0, player: bool = True, max_depth: int = 4):
     # Get all the possible moves in the given state
     possible = state.possible_moves()
     
@@ -17,6 +17,9 @@ def minmax(state: Nim, depth: int = 0, player: bool = True):
             return (1, None) # If False, it means that player won, good!
 
     tried = []
+
+    if depth == max_depth:
+        return (0, None)
 
     # Each p is possible move (a ply)
     for m in possible:
@@ -34,4 +37,4 @@ def minmax(state: Nim, depth: int = 0, player: bool = True):
 
 # Simple wrapper to take only the move and not the tuple
 def minimax(state: Nim):
-    return minmax(state, 0, True)[1]
+    return minmax(state, 0, True, 4)[1]

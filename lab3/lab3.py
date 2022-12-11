@@ -65,8 +65,8 @@ def strategy_to_evolve(genome: dict) -> Callable:
     return evolvable
 
 # GLOBAL VARIABLES #
-NUM_MATCHES = 1000
-NIM_SIZE = 3
+NUM_MATCHES = 10
+NIM_SIZE = 5
 
 # Function to perform a tournament with NUM_MATCHES matches, it returns the fraction of games
 # won by the strategy function (the first parameter), so if we pass as strategy the optimal_strategy
@@ -76,6 +76,7 @@ def evaluate(strategy: Callable, opponent: Callable) -> float:
         won = 0
 
         for m in range(NUM_MATCHES):
+            logging.debug(m)
             nim = Nim(NIM_SIZE)
             player = 0
             while nim:
@@ -85,7 +86,7 @@ def evaluate(strategy: Callable, opponent: Callable) -> float:
             if player == 1:
                 won += 1
 
-        logging.info(f" Player 0 won {won} time in {NUM_MATCHES} game, corresponding to {won / NUM_MATCHES * 100} % of the games")
+        logging.debug(f" Player 0 won {won} time in {NUM_MATCHES} game, corresponding to {won / NUM_MATCHES * 100} % of the games")
 
         return won / NUM_MATCHES
 
@@ -160,7 +161,7 @@ def evolve(opponent: Callable):
     return strategy_to_evolve(population[0].genome)
 
 if __name__ == "__main__":
-    logging.getLogger().setLevel(logging.INFO)
+    logging.getLogger().setLevel(logging.DEBUG)
 
     # What the evaluate function returns is the WR of the first strategy passed, so
     # a value < 0.5 means the second one passed is better and a value > 0.5 means
@@ -181,4 +182,4 @@ if __name__ == "__main__":
     # print( evaluate(evolved_strategy, gabriele) )
 
     # Have a match between minmax and a random player
-    print( evaluate(pure_random, minimax) )
+    print( evaluate(gabriele, minimax) )
