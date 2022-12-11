@@ -1,3 +1,6 @@
+# Main
+The .ipynb file is useless, the main code is in lab3.py. 
+
 # 3.1 Fixed Rules
 Just pure_random and gabriele. Also nim_sum. <br />
 Strategies are evaluated with the evaluate function by having a tournament with two strategies. The function accepts two strategies and returns the Win Rate of the first strategy passed. <br />
