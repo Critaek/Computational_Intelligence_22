@@ -169,21 +169,21 @@ if __name__ == "__main__":
     # the first passed is better 
 
     # Match between a pure_random and gabriele
-    # print( evaluate(pure_random, gabriele) )
+    print( evaluate(pure_random, gabriele) )
     # gabriele wins!
 
     # We evolve a strategy by making it play against a hard coded rule
     # in this case, as gabriele is better than a random one, he will be the opponent
-    # evolved_strategy = evolve(gabriele)
+    evolved_strategy = evolve(gabriele)
 
     # Have a match between the evolved strategy and pure_random
-    # print( evaluate(evolved_strategy, pure_random) )
+    print( evaluate(evolved_strategy, pure_random) )
 
     # Have a match between the evolved strategy and gabriele
-    # print( evaluate(evolved_strategy, gabriele) )
+    print( evaluate(evolved_strategy, gabriele) )
 
     # Have a match between minmax and a random player
-    # print( evaluate(gabriele, minimax) )
+    print( evaluate(gabriele, minimax) )
     
     agent = Agent()
     agent.play(Nim(2))
