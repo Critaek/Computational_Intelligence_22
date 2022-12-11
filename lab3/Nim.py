@@ -43,3 +43,11 @@ class Nim:
             return True
         else:
             return False
+
+    def get_state_and_reward(self):
+        return self, self.give_reward()
+
+    def give_reward(self):
+        # if at end give 0 reward
+        # if not at end give -1 reward
+        return -1 * int(not self.is_over())

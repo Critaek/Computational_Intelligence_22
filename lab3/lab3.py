@@ -6,6 +6,7 @@ from copy import deepcopy
 from itertools import accumulate
 from operator import xor
 from minmax import minimax
+from RL import Agent
 
 # Random Strategy, this is the same as the professor code, it takes a random number
 # of sticks (objects) from a random row
@@ -182,4 +183,7 @@ if __name__ == "__main__":
     # print( evaluate(evolved_strategy, gabriele) )
 
     # Have a match between minmax and a random player
-    print( evaluate(gabriele, minimax) )
+    # print( evaluate(gabriele, minimax) )
+    
+    agent = Agent()
+    agent.play(Nim(2))
