@@ -59,8 +59,10 @@ class Agent(object):
         self.random_factor -= 10e-5  # decrease random factor each episode of play
 
 
-    def play(self, state: Nim):
+    def play(self, opponent, state: Nim):
         nim = state
+        # As in minmax, True is "us" while False is the opponent
+        player = True
 
         for i in range(5000):
             self.steps += 1
