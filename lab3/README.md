@@ -15,4 +15,5 @@ Simple MinMax (also called MiniMax) algorithm, I tried to implement alpha-beta p
 The max_depth limit has been implemented by returning simply 0 point and no move.
 
 # 3.4 Reinforcement Learning Agent
+Code from Prof. Calabrese example, but revisited to work with Nim. <br />
 I'm not sure about my implementation, it's maximizing and not minimizing. I thins i messed up something. Any advice will be appreciated.
