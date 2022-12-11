@@ -1,5 +1,6 @@
 # Main
-The .ipynb file is useless, the main code is in lab3.py. 
+The .ipynb file is useless, the main code is in lab3.py. <br />
+To try different methos alone, please comment the other ones.
 
 # 3.1 Fixed Rules
 Just pure_random and gabriele. Also nim_sum. <br />
