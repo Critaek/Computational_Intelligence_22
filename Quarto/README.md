@@ -15,6 +15,9 @@ https://github.com/mistru97/CI_2022_s292623/issues/7
 
 Lab 3</br>
 https://github.com/mistru97/CI_2022_s292623/issues/10</br>
+
 https://github.com/saccuz/Computational_Intelligence/issues/7</br>
+
 https://github.com/b3xul/Computational_Intelligence/issues/5</br>
+
 https://github.com/francescofiorella/computational_intelligence_2022_2023/issues/7
